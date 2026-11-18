@@ -189,6 +189,29 @@ section{margin-top:96px}
 .short-card .price{display:inline-block;font-family:var(--font-disp);font-size:11.5px;padding:1px 9px;border-radius:99px;background:var(--lime);margin-bottom:8px}
 .short-card .desc{font-size:12.5px;line-height:1.6;white-space:pre-line}
 
+/* ---------- copy & go ---------- */
+.cg-tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.cg-tools input{flex:1;min-width:200px;font:inherit;font-size:14px;padding:9px 14px;border:1px solid var(--line);border-radius:99px;outline:none}
+.cg-tools input:focus{border-color:var(--ink)}
+.cg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;align-items:start}
+.cg-group{border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.cg-group h3{font-family:var(--font-disp);font-weight:500;font-size:13px;padding:11px 16px;background:var(--stone);border-bottom:1px solid var(--line)}
+.cg-group:nth-child(3n+1) h3{background:var(--lime)}
+.cg-group:nth-child(3n+2) h3{background:var(--pink)}
+.cg-row{display:flex;align-items:center;gap:10px;padding:9px 12px 9px 16px;border-bottom:1px solid var(--hair)}
+.cg-row:last-child{border-bottom:none}
+.cg-txt{flex:1;min-width:0}
+.cg-txt .ko{font-size:13.5px;font-weight:500;display:block}
+.cg-txt .zh{font-size:13px;color:var(--sub);display:block;font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',sans-serif;word-break:break-all}
+.cg-btn{flex:none;font:inherit;font-size:11.5px;font-weight:500;padding:4px 10px;border:1px solid var(--line);border-radius:99px;background:#fff;color:var(--ink);cursor:pointer;white-space:nowrap;transition:.15s}
+.cg-btn:hover{border-color:var(--ink)}
+.cg-btn.map{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cg-btn.map:hover{background:var(--lime);color:var(--ink)}
+.cg-btn.ok{background:var(--lime);border-color:var(--lime)}
+.cg-row[hidden]{display:none}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;padding:9px 16px;border-radius:99px;opacity:0;transition:.2s;pointer-events:none;z-index:99;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translateX(-50%)}
+
 .footnote{margin-top:90px;padding-top:20px;border-top:1px solid var(--hair);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--sub)}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
@@ -207,6 +230,7 @@ section{margin-top:96px}
       <a href="#maps">지도</a>
       <a href="#checklist">체크리스트</a>
       <a href="#shortlists">후보</a>
+      <a href="#copy-go">복붙·고덕</a>
     </nav>
   </div>
 </div>
@@ -278,6 +302,12 @@ section{margin-top:96px}
   <section id="shortlists">
     <div class="sec-head"><h2>On our minds</h2><span class="ko">아직 확정 안 한 후보들 — 골라서 일정에 넣기</span></div>
     <div id="shorts-box"></div>
+  </section>
+
+  <section id="copy-go">
+    <div class="sec-head"><h2>Copy &amp; Go</h2><span class="ko">중국어 복사 → 고덕지도·디디 검색창에 붙여넣기 · 고덕 버튼은 바로 지도 열기</span></div>
+    <div class="cg-tools"><input id="cg-q" type="search" placeholder="가게 이름 검색 (한글 · 중국어)" aria-label="장소 검색"></div>
+    <div class="cg-grid" id="cg-box"></div>
   </section>
 
   <div class="footnote"><span>파일 상단 DATA 객체만 수정하면 전부 갱신돼요</span><span>나린 · 지혜 · 유진 — Shanghai 2026</span></div>
@@ -426,6 +456,88 @@ const DATA = {
     ],
   },
 
+  /* 📋 복붙 · 고덕지도 — zh: 복사될 중국어(검색창에 붙여넣기) / url: 고덕지도 링크 */
+  places: {
+    "🚕 택시용 — 기사님께 보여주기": [
+      { ko:"우리 호텔 (그랜드 하얏트 상하이)", zh:"上海金茂君悦大酒店 浦东新区世纪大道88号金茂大厦" },
+      { ko:"홍차오 국제공항", zh:"虹桥国际机场", url:"https://surl.amap.com/pP8ne2l1xgwM" },
+      { ko:"푸동 국제공항", zh:"浦东国际机场", url:"https://surl.amap.com/LME1Z1ddFM" },
+      { ko:"디즈니랜드", zh:"上海迪士尼乐园", url:"https://surl.amap.com/oQRfXmVM0Ck" },
+    ],
+    "😋 맛집 — 검색해서 가까운 지점 찾기": [
+      { ko:"라오지스 티엔핑 로드 점", zh:"老吉士饭馆", url:"https://surl.amap.com/ohl6Mlqt1x6" },
+      { ko:"라오지스 IFC몰 점", zh:"老吉士(上海ifc商场)", url:"https://surl.amap.com/GmNCAdre1t" },
+      { ko:"루이씽커피", zh:"瑞幸咖啡" },
+      { ko:"차지", zh:"霸王茶姬" },
+      { ko:"패왕차희 우캉루 점", zh:"霸王茶姬", url:"https://surl.amap.com/xs2Dnul3bv9" },
+      { ko:"아마수작", zh:"阿玛手作" },
+      { ko:"모어요거트", zh:"茉酸奶" },
+      { ko:"주광옥훠궈 인민광장점", zh:"朱光玉火锅馆(人民广场店)", url:"https://surl.amap.com/y1Ls2kxg5FL" },
+      { ko:"홍지에훠궈", zh:"鸿姐老火锅" },
+      { ko:"촉대협훠궈", zh:"蜀大侠" },
+      { ko:"헌지우이치엔 양꼬치 (난징루 제일백화점)", zh:"很久以前羊肉串(南京路第一百货店)", url:"https://surl.amap.com/oPHHDl71e050" },
+      { ko:"신장정종양꼬치", zh:"新疆正宗羊肉串(浙江中路店)" },
+      { ko:"라오농탕미엔관", zh:"沪西老弄堂面馆(广东路店)" },
+      { ko:"유안지윈지아오", zh:"袁记云饺" },
+      { ko:"대호춘", zh:"大壶春" },
+      { ko:"지아지아탕바오", zh:"佳家汤包(黄河路店)" },
+      { ko:"라이라이샤오룽", zh:"", url:"https://surl.amap.com/p2vDoo914gj4" },
+      { ko:"마오토우", zh:"毛头老爹饭店(幸福里店)" },
+      { ko:"점도덕", zh:"点都德(中海环宇荟店)" },
+      { ko:"쓰촨시티즌", zh:"龙门阵茶屋川菜馆" },
+      { ko:"카리노 베이커리 (래플스시티)", zh:"CARINO BAKERY&CAFE(上海来福士广场店)" },
+      { ko:"탕수오", zh:"瑭所(协进大楼店)" },
+      { ko:"그랜드마더", zh:"", url:"https://surl.amap.com/pmShwpH126Ye" },
+      { ko:"리츠칼튼 58층 Flair 바 (동방명주 야경)", zh:"", url:"https://surl.amap.com/4CDFZMslwdkO" },
+    ],
+    "🛍️ 쇼핑": [
+      { ko:"Subdued", url:"https://surl.amap.com/pl6Wd2h1mgXh" },
+      { ko:"13DE MARZO", url:"https://surl.amap.com/4YS0prP1b5eY" },
+      { ko:"브랜디 멜빌", url:"https://surl.amap.com/rY2yJBC1hbLq" },
+      { ko:"Tagi", url:"https://surl.amap.com/3brQI7n1g8yv" },
+      { ko:"Basement FG", url:"https://surl.amap.com/4xkrdMBDheLz" },
+      { ko:"W management 난징동루 점", url:"https://surl.amap.com/3aNZFe81o8Wg" },
+      { ko:"W management 정대광장 점 (IFC 옆)", url:"https://surl.amap.com/2NrN7fMx4b9e" },
+      { ko:"Sweet Chilling", url:"https://surl.amap.com/12uXmlf3Kt" },
+      { ko:"슈프림", url:"https://surl.amap.com/lPlJ5Uky6jV" },
+      { ko:"SMFK", url:"https://surl.amap.com/e186azOp374" },
+      { ko:"슈슈통", url:"https://surl.amap.com/5EYxZ7mg23z" },
+      { ko:"팝마트", url:"https://surl.amap.com/pp0Kzzrvfzm" },
+      { ko:"미니소랜드", url:"https://surl.amap.com/oJ4Th0B1qboO" },
+      { ko:"따룬파 마트", url:"https://surl.amap.com/oHnHAzLP9Yb" },
+      { ko:"아디다스 난징동루점", url:"https://surl.amap.com/oEHKPlLW1T1" },
+      { ko:"신세계 백화점", url:"https://surl.amap.com/vHzyZro5B8" },
+      { ko:"ZZER 중고 명품", url:"https://surl.amap.com/3gD0U1W13eL6" },
+      { ko:"Sisyphus 빈티지 디카", url:"https://surl.amap.com/6hamtBv1g8th" },
+      { ko:"Itzy bitzy 빈티지 디카", url:"https://surl.amap.com/2C6qBER6J48n" },
+      { ko:"픽셀 메모리 빈티지 디카", url:"https://surl.amap.com/18l6aHUFfqO" },
+      { ko:"리락쿠마 스티커사진", url:"https://surl.amap.com/17H4l8CrdPx" },
+      { ko:"3CardStudio", zh:"三生有信(豫园商城店)" },
+    ],
+    "💄 뷰티샵": [
+      { ko:"와우뷰티 (중국 올영) 정대광장 점", url:"https://surl.amap.com/2JRLk0YZ1p9Ji" },
+      { ko:"더 컬러리스트 (MZ픽)", url:"https://surl.amap.com/18Pb53Af02y" },
+      { ko:"뷰티 초이스 (플라워노즈 입점)", url:"https://surl.amap.com/18RGSgy1k1YX" },
+      { ko:"하메이 신천지 점", url:"https://surl.amap.com/uznxjbfJ3fg" },
+      { ko:"하메이 우캉루 점", url:"https://surl.amap.com/dQVc8n4nali" },
+      { ko:"강다오 마사지 (인민광장점)", zh:"康道按摩(人民广场店)" },
+    ],
+    "👗 편집샵": [
+      { ko:"Miu lab", url:"https://surl.amap.com/19xY8tA7gml" },
+      { ko:"Label hood", url:"https://surl.amap.com/vNNJbQl1z1Gb" },
+      { ko:"Rouge room", url:"https://surl.amap.com/19EwvAmg7FU" },
+      { ko:"Mason prince", url:"https://surl.amap.com/96SE2v2vdtl" },
+    ],
+    "😎 관광": [
+      { ko:"대한민국 임시정부", zh:"大韩民国临时政府旧址 黄浦区马当路306弄4号", url:"https://surl.amap.com/1TbC5Ja125Z2" },
+      { ko:"인민광장", zh:"人民广场", url:"https://surl.amap.com/mhCzKyR110tp" },
+      { ko:"우캉맨션", zh:"武康大楼", url:"https://surl.amap.com/uukN3zPu0pn" },
+      { ko:"정대광장 (점도덕 · 홀리랜드 · 헤이티)", url:"https://surl.amap.com/oC5MMGR78t8" },
+      { ko:"이름 미기재 장소", url:"https://surl.amap.com/oPONmBH1B6nx" },
+      { ko:"인스 클럽", url:"https://www.amap.com/place/B0H0SR7BST" },
+    ],
+  },
+
   shortlists: {
     "샤오롱바오 · 만두": [
       { name:"난샹 만두점 南翔馒头店", loc:"위위안(예원) 안", price:"관광지 가격", desc:"상하이 샤오롱바오의 원조격. 줄이 길면 2층 좌석(조금 더 비쌈)이 더 빨리 들어가요." },
@@ -567,6 +679,35 @@ $("#shorts-box").innerHTML = Object.entries(DATA.shortlists).map(([g,items])=>`
     ${items.map(s=>`<div class="short-card"><div class="nm">${s.name}</div><div class="loc">${s.loc}</div><span class="price">${s.price}</span><div class="desc">${s.desc}</div></div>`).join("")}
   </div></div>`).join("");
 
+/* 복붙 · 고덕지도 */
+(function(){
+  const esc = t => String(t).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  $("#cg-box").innerHTML = Object.entries(DATA.places).map(([g,items])=>`
+    <div class="cg-group"><h3>${g}</h3>
+      ${items.map(p=>{ const copy = p.zh || p.url || p.ko;
+        return `<div class="cg-row" data-s="${esc((p.ko+' '+(p.zh||'')).toLowerCase())}">
+          <div class="cg-txt"><span class="ko">${p.ko}</span>${p.zh?`<span class="zh">${p.zh}</span>`:''}</div>
+          <button class="cg-btn" type="button" data-copy="${esc(copy)}">${p.zh?'중국어 복사':'링크 복사'}</button>
+          ${p.url?`<a class="cg-btn map" href="${p.url}" target="_blank" rel="noopener">고덕 ↗</a>`:''}
+        </div>`}).join("")}
+    </div>`).join("");
+  let tt;
+  const toast = m => { const t=$("#toast"); t.textContent=m; t.classList.add("on"); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove("on"),1600); };
+  const fallback = txt => { const a=document.createElement("textarea"); a.value=txt; a.style.position="fixed"; a.style.opacity="0"; document.body.appendChild(a); a.select(); let ok=false; try{ok=document.execCommand("copy");}catch(e){} a.remove(); return ok; };
+  $("#cg-box").addEventListener("click", async e=>{
+    const b = e.target.closest("[data-copy]"); if (!b) return;
+    const txt = b.dataset.copy; let ok=false;
+    try { await navigator.clipboard.writeText(txt); ok=true; } catch(err){ ok = fallback(txt); }
+    if (ok){ b.classList.add("ok"); setTimeout(()=>b.classList.remove("ok"),1200); toast("복사됨 · "+txt); }
+    else toast("복사 실패 — 길게 눌러 직접 복사해주세요");
+  });
+  $("#cg-q").addEventListener("input", e=>{
+    const q = e.target.value.trim().toLowerCase();
+    document.querySelectorAll(".cg-row").forEach(r=>r.hidden = q && !r.dataset.s.includes(q));
+    document.querySelectorAll(".cg-group").forEach(g=>g.hidden = !g.querySelector(".cg-row:not([hidden])"));
+  });
+})();
+
 /* ================================================================
    기호 일러스트 — 실루엣을 그린 뒤 · × ○ ● 기호로 다시 찍어요
    ================================================================ */
@@ -683,5 +824,6 @@ function paint(){
 let rt; window.addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(paint,150)});
 (document.fonts?.ready || Promise.resolve()).then(paint);
 </script>
+<div class="toast" id="toast" role="status"></div>
 </body>
 </html>
